@@ -1,0 +1,25 @@
+import cv2
+import numpy as np
+
+img_path = "/Users/buileuyenvy/Downloads/Fig0342(a)(contact_lens_original).png"  
+img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+
+if img is None:
+    img = np.random.randint(0, 256, (300, 300), dtype=np.uint8)
+
+kernel_x = np.array([[-1, 0], 
+                     [ 0, 1]])
+
+kernel_y = np.array([[ 0, -1], 
+                     [ 1,  0]])
+
+gx = cv2.filter2D(img, cv2.CV_64F, kernel_x)
+gy = cv2.filter2D(img, cv2.CV_64F, kernel_y)
+
+roberts_out = np.uint8(np.abs(gx) + np.abs(gy))
+
+cv2.imshow('Original Image', img)
+cv2.imshow('Roberts Edge Detection', roberts_out)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
