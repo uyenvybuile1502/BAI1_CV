@@ -1,0 +1,26 @@
+import cv2
+import numpy as np
+
+img_path = "/Users/buileuyenvy/Desktop/dau_tay.png" 
+img = cv2.imread(img_path)
+
+if img is None:
+    img = np.random.randint(0, 256, (300, 300, 3), dtype=np.uint8)
+
+
+lower_bound = np.array([0, 0, 100])   
+upper_bound = np.array([100, 100, 255]) 
+
+mask = cv2.inRange(img, lower_bound, upper_bound)
+
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+gray_bgr = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR) 
+
+
+result = np.where(mask[:, :, np.newaxis] == 255, img, gray_bgr)
+
+cv2.imshow('Original Image', img)
+cv2.imshow('Color Slicing Result', result)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
