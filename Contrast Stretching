@@ -1,0 +1,39 @@
+import cv2
+import numpy as np
+img_path = "/Users/buileuyenvy/Downloads/Fig0310(b)(washed_out_pollen_image).png"
+img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+
+rmin = np.min(img)
+rmax = np.max(img)
+rmean = np.mean(img)
+
+
+def ContrastStretching(img, r1, r2, s1, s2):
+    H, W = img.shape
+    img_contrast = np.zeros((H, W), np.uint8)
+
+    for x in range(0, H):
+        for y in range(0, W):
+            r = img[x, y]
+            if r < r1:
+                s = (s1 / r1) * r
+            elif (r >= r1) & (r <= r2):
+                s = ((s2 - s1) / (r2 - r1)) * (r - r1) + s1
+            else:
+                s = ((255 - s2) / (255 - r2)) * (r - r2) + s2
+
+            img_contrast[x, y] = np.uint8(s)
+
+    return img_contrast
+
+
+img_contrast = ContrastStretching(img, rmin, rmax, 0.0, 255.0)
+
+
+img_threshold = ContrastStretching(img, rmean, rmean, 0.0, 255.0)
+
+cv2.imshow('Original image', img)
+cv2.imshow('Gamma Transformation image', img_contrast)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
