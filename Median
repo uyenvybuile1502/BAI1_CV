@@ -1,0 +1,34 @@
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+
+img = cv2.imread('/Users/buileuyenvy/Downloads/Fig0335(a)(ckt_board_saltpep_prob_pt05).png', cv2.IMREAD_GRAYSCALE)
+if img is None:
+    img = np.random.randint(0, 256, (256, 256), dtype=np.uint8)
+def MedianFilter(img, size):
+    a = size // 2
+    img_pad = np.pad(img, a, mode="constant", constant_values=0)
+    
+    H, W = img.shape
+    img_out = np.zeros((H, W), np.uint8)
+    
+    for x in range(H):
+        for y in range(W):
+            w = np.zeros((size, size), np.uint8)
+            for s in range(-a, a + 1):
+                for t in range(-a, a + 1):
+                    w[a + s, a + t] = img_pad[x + a + s, y + a + t]
+            w_1D = np.reshape(w, (size * size,))
+            w_sort = np.sort(w_1D)
+            median = w_sort[(size * size) // 2]
+            img_out[x, y] = median
+            
+    return img_out
+img_median = MedianFilter(img, 3)
+
+cv2.imshow('Original image', img)
+cv2.imshow('Median Filter image', img_median)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
