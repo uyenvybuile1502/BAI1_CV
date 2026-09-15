@@ -1,0 +1,34 @@
+import cv2
+import numpy as np
+
+img_path = "/Users/buileuyenvy/Downloads/Fig0338(a)(blurry_moon).png"  
+img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+def Laplacian(img, mask):
+    a = 1
+    img_pad = np.pad(img, a, mode="constant", constant_values=0)
+    
+    H, W = img.shape
+    img_laplacian = np.zeros((H, W), dtype=np.int32)
+    
+    for x in range(H):
+        for y in range(W):
+            total = 0
+            for s in range(-a, a + 1):
+                for t in range(-a, a + 1):
+                    total += img_pad[x + a + s, y + a + t] * mask[s + a, t + a]
+            img_laplacian[x, y] = total
+            
+    return img_laplacian
+mask_laplacian = np.array([
+    [0,  1, 0],
+    [1, -4, 1],
+    [0,  1, 0]
+])
+lap_result = Laplacian(img, mask_laplacian)
+lap_display = cv2.normalize(lap_result, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+cv2.imshow('Original Image', img)
+cv2.imshow('Laplacian Edge Map', lap_display)
+
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
