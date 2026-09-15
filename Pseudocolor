@@ -1,0 +1,17 @@
+import cv2
+import numpy as np
+
+
+img_path = "/Users/buileuyenvy/Desktop/global.png" 
+img_gray = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+
+if img_gray is None:
+    img_gray = np.random.randint(0, 256, (300, 300), dtype=np.uint8)
+
+pseudocolor_img = cv2.applyColorMap(img_gray, cv2.COLORMAP_JET)
+
+cv2.imshow('Grayscale Image', img_gray)
+cv2.imshow('Pseudocolor Image (JET)', pseudocolor_img)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
