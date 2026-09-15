@@ -1,0 +1,27 @@
+import cv2
+import numpy as np
+img_path = "/Users/buileuyenvy/Downloads/Fig0312(a)(kidney).png"
+img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+rmean = np.mean(img)
+H, W = img.shape
+
+img_slicing_1 = np.zeros((H, W), np.uint8)
+img_slicing_2 = img.copy()
+
+for x in range(0, H):
+    for y in range(0, W):
+        p = img[x, y]
+       
+        if (p >= 150) & (p <= 255):
+            img_slicing_1[x, y] = 200
+        
+        if (p >= (rmean - 35)) & (p <= (rmean + 35)):
+            img_slicing_2[x, y] = 0
+
+# Hiển thị kết quả
+cv2.imshow('Original Image', img)
+cv2.imshow('Intensity-level Slicing 1', img_slicing_1)
+cv2.imshow('Intensity-level Slicing 2', img_slicing_2)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
