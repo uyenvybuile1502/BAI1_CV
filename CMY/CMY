@@ -1,0 +1,23 @@
+import cv2
+import numpy as np
+
+img = cv2.imread('/Users/buileuyenvy/Desktop/dau_tay.png') 
+img_float = img.astype(np.float32) / 255.0
+b, g, r = cv2.split(img_float)
+
+c = 1.0 - r
+m = 1.0 - g
+y = 1.0 - b
+
+k = np.minimum(np.minimum(c, m), y)
+c_k = (c - k) / (1.0 - k + 1e-6)
+m_k = (m - k) / (1.0 - k + 1e-6)
+y_k = (y - k) / (1.0 - k + 1e-6)
+
+cv2.imshow('Cyan (C)', (c_k * 255).astype(np.uint8))
+cv2.imshow('Magenta (M)', (m_k * 255).astype(np.uint8))
+cv2.imshow('Yellow (Y)', (y_k * 255).astype(np.uint8))
+cv2.imshow('Key/Black (K)', (k * 255).astype(np.uint8))
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
