@@ -33,7 +33,7 @@ img_contrast = ContrastStretching(img, rmin, rmax, 0.0, 255.0)
 img_threshold = ContrastStretching(img, rmean, rmean, 0.0, 255.0)
 
 cv2.imshow('Original image', img)
-cv2.imshow('Gamma Transformation image', img_contrast)
+cv2.imshow('Constrast Stretching Transformation image', img_contrast)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
