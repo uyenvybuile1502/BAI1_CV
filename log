@@ -1,0 +1,14 @@
+import cv2
+import numpy as np
+
+img_path = "/Users/buileuyenvy/Downloads/Fig0305(a)(DFT_no_log).png"
+img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+
+c = 255 / np.log(255 + 1)
+img_log = np.uint8(c * np.log(1.0 + img))
+
+cv2.imshow('Original image', img)
+cv2.imshow('Log Transformation image', img_log)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
