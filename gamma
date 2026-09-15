@@ -1,0 +1,14 @@
+import cv2
+import numpy as np
+img_path = "/Users/buileuyenvy/Downloads/Fig0309(a)(washed_out_aerial_image).png"
+img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+L = 256
+gamma = 4.0
+c = ( L -1 )**(1 - gamma)
+
+img_gamma = c * (img ** gamma)
+img_gamma = np.uint8(np.clip(img_gamma, 0, 255))
+cv2.imshow("Original Image", img)
+cv2.imshow("Gamma Transformed Image", img_gamma)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
